@@ -22,3 +22,4 @@ edge cases to handle:
 
 improvements to make:
 -> unit testing
+-> factory pattern to avoid the weird way I'm constructing/passing in dependencies to the commands in the command parser

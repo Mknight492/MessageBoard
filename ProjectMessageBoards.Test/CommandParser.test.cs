@@ -12,13 +12,16 @@ namespace ProjectMessageBoards.Test
         [Fact]
         public void CommandParser_Generates_AddPostCommand_When_Passed_A_Post_String()
         {
+            //arrange
             var messageRepositoryMock = new Mock<IMessageRepository>();
             var messagesLoggerMock = new Mock<IMessagesLogger>();
 
             var sut = new CommandParser(messageRepositoryMock.Object, messagesLoggerMock.Object);
 
+            //act
             var command = sut.ParseCommand("Alice -> @Moonshot I'm working on the log on screen");
 
+            //assert
             Assert.IsAssignableFrom<AddPostCommand>(command);
             
         }
@@ -61,5 +64,7 @@ namespace ProjectMessageBoards.Test
 
             Assert.IsAssignableFrom<ReadProjectCommand>(command);
         }
+
+        //todo add testing to make sure the excute functions call the logger/repository as expected
     }
 }
