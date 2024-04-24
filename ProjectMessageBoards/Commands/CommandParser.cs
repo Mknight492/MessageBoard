@@ -11,7 +11,7 @@ namespace ProjectMessageBoards.Commands
     public class CommandParser
     {
         private string POSTING_DELIMITER = " -> @";
-        private string FOLLOWING_DELIMITER = " -> @";
+        private string FOLLOWING_DELIMITER = "follows";
         public ICommand ParseCommand(string input)
         {
   
@@ -38,7 +38,7 @@ namespace ProjectMessageBoards.Commands
                 var userName = input.Split(FOLLOWING_DELIMITER)[0].Trim();
                 var project = input.Split(FOLLOWING_DELIMITER)[1].Trim();
 
-                return new FollowCommand(userName, project, time);
+                return new FollowCommand(userName, project);
             }
             else
             {

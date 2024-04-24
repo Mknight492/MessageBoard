@@ -1,10 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using ProjectMessageBoards.Commands;
-
-Console.WriteLine("Hello, World!");
-
+using ProjectMessageBoards.Repositories;
 
 var parser = new CommandParser();
+
+var inMemoryStorage = new MessageRepository();
 
 while (true)
 {
@@ -16,6 +16,7 @@ while (true)
         break;
     }
     var command = parser.ParseCommand(input);
-    command.Execute();
+    //ideally would use an interface and potentially a DI framework for adding the reference to the data access layer
+    command.Execute(inMemoryStorage);
 
 }

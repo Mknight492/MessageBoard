@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectMessageBoards.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,17 +10,21 @@ namespace ProjectMessageBoards.Commands
     public class AddPostCommand : ICommand
     {
         private string _userName;
+        private string _project;
+        private string _message;
+        private DateTime _time;
 
         public AddPostCommand(string userName, string project, string message, DateTime time)
         {
-            throw new NotFiniteNumberException();
             _userName = userName;
+            _project = project;
+            _message = message;
+            _time = time;
         }
 
-        public void Execute()
+        public void Execute(MessageRepository inMemoryStorage)
         {
-            // Logic to add a user
-            Console.WriteLine($"Adding user {_userName}");
+            inMemoryStorage.AddMessage(_userName, _project, _message, _time);
         }
     }
 }
