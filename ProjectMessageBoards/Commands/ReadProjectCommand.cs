@@ -1,4 +1,5 @@
-﻿using ProjectMessageBoards.Repositories;
+﻿using ProjectMessageBoards.Logger;
+using ProjectMessageBoards.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,26 +12,21 @@ namespace ProjectMessageBoards.Commands
     {
         private string _project;
         private DateTime _time;
+        private IMessageRepository _messageRepository;
+        private IMessagesLogger _messagesLogger;
 
-        public ReadProjectCommand(string project, DateTime time)
+        public ReadProjectCommand(string project, DateTime time, IMessageRepository messageRepository, IMessagesLogger messagesLogger)
         {
             _project = project;
             _time = time;
+            _messageRepository = messageRepository;
+            _messagesLogger = messagesLogger;
         }
 
-        public void Execute(IMessageRepository inMemoryStorage)
+        public void Execute()
         {
-            var messages = inMemoryStorage.GetProjectMessages(_project);
-            var currentAuthor = "";
-            foreach (var message in messages) 
-            { 
-                if(currentAuthor != message.User)
-                {
-                    currentAuthor = message.User;
-                    Console.WriteLine(message.User);
-                }
-                Console.WriteLine(message.Format(_time));
-            }
+            var messages = _messageRepository.GetProjectMessages(_project);
+            _messagesLogger.OutputProjectMessages(messages, _time);
         }
     }
 }

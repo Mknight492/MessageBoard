@@ -9,6 +9,6 @@ namespace ProjectMessageBoards.Commands
 {
     public interface ICommand
     {
-        void Execute(IMessageRepository inMemoryStorage);
+        void Execute();
     }
 }

@@ -5,8 +5,8 @@ using System;
 using ProjectMessageBoards.Commands;
 using ProjectMessageBoards.Repositories;
 using ProjectMessageBoards;
+using ProjectMessageBoards.Logger;
 
-var parser = new CommandParser();
 
 var inMemoryStorage = new MessageRepository();
 
@@ -16,6 +16,7 @@ var host = Host.CreateDefaultBuilder(args)
         // Register services with DI container
         services.AddSingleton<IMessageRepository, MessageRepository>(); 
         services.AddTransient<ICommandParser, CommandParser>(); 
+        services.AddTransient<IMessagesLogger, MessagesLogger>();
         services.AddTransient<MyApplication>(); // Main application class
     })
     .Build();

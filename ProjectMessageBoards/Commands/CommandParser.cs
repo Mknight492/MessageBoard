@@ -1,4 +1,6 @@
 ﻿using ProjectMessageBoards.Commands.ProjectMessageBoards.Commands;
+using ProjectMessageBoards.Logger;
+using ProjectMessageBoards.Repositories;
 using ProjectMessageBoards.Utilities;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,13 @@ namespace ProjectMessageBoards.Commands
 {
     public class CommandParser : ICommandParser
     {
+        private IMessageRepository _messageRepository;
+        private IMessagesLogger _messagesLogger;
+        public CommandParser(IMessageRepository messageRepository, IMessagesLogger messagesLogger)
+        {
+            _messageRepository = messageRepository;
+            _messagesLogger = messagesLogger;
+        }
         private string POSTING_DELIMITER = " -> @";
         private string FOLLOWING_DELIMITER = "follows";
         public ICommand ParseCommand(string input)
@@ -22,7 +31,7 @@ namespace ProjectMessageBoards.Commands
             if (input.EndsWith(" wall"))
             {
                 var userName = input.RemoveLastOccurrence(" wall");
-                return new PostWallCommand(userName, time);
+                return new PostWallCommand(userName, time, _messageRepository, _messagesLogger);
             }
             else if (input.Contains(POSTING_DELIMITER))
             {
@@ -30,20 +39,20 @@ namespace ProjectMessageBoards.Commands
                 var projectNameAndMessage = input.Split(POSTING_DELIMITER)[1].Trim();
                 var (project, message) = projectNameAndMessage.SplitSentenceIntoFirstWordAndRestOfScentence();
 
-                return new AddPostCommand(userName, project, message, time);
+                return new AddPostCommand(userName, project, message, time, _messageRepository);
             }
             else if (input.Contains(FOLLOWING_DELIMITER))
             {
                 var userName = input.Split(FOLLOWING_DELIMITER)[0].Trim();
                 var project = input.Split(FOLLOWING_DELIMITER)[1].Trim();
 
-                return new FollowCommand(userName, project);
+                return new FollowCommand(userName, project, _messageRepository);
             }
             else
             {
                 //reading command
                 var project = input.Trim();
-                return new ReadProjectCommand(project, time);
+                return new ReadProjectCommand(project, time, _messageRepository, _messagesLogger);
 
             }
 

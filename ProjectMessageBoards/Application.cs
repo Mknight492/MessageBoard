@@ -13,11 +13,9 @@ namespace ProjectMessageBoards
     {
         private ICommandParser _commandParser;
 
-        private IMessageRepository _messageRepository;
-        public MyApplication(ICommandParser commandParser, IMessageRepository messageRepository)
+        public MyApplication(ICommandParser commandParser)
         {
             _commandParser = commandParser;
-            _messageRepository = messageRepository;
         }
         public void Run()
         {
@@ -31,8 +29,7 @@ namespace ProjectMessageBoards
                     break;
                 }
                 var command = _commandParser.ParseCommand(input);
-                //ideally would use an interface and potentially a DI framework for adding the reference to the data access layer
-                command.Execute(_messageRepository);
+                command.Execute();
 
             }
         }

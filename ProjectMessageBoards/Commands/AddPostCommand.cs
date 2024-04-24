@@ -13,18 +13,20 @@ namespace ProjectMessageBoards.Commands
         private string _project;
         private string _message;
         private DateTime _time;
+        private IMessageRepository _messageRepository;
 
-        public AddPostCommand(string userName, string project, string message, DateTime time)
+        public AddPostCommand(string userName, string project, string message, DateTime time, IMessageRepository messageRepository)
         {
             _userName = userName;
             _project = project;
             _message = message;
             _time = time;
+            _messageRepository = messageRepository;
         }
 
-        public void Execute(IMessageRepository inMemoryStorage)
+        public void Execute()
         {
-            inMemoryStorage.AddMessage(_userName, _project, _message, _time);
+            _messageRepository.AddMessage(_userName, _project, _message, _time);
         }
     }
 }

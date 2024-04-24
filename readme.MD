@@ -21,5 +21,4 @@ edge cases to handle:
 - follows in the message
 
 improvements to make:
--> separte the logging to the console into it's own separate class
 -> unit testing

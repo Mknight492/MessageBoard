@@ -11,16 +11,18 @@ namespace ProjectMessageBoards.Commands
     {
         private string _userName;
         private string _project;
+        private IMessageRepository _messageRepository;
 
-        public FollowCommand(string userName, string project)
+        public FollowCommand(string userName, string project, IMessageRepository messageRepository)
         {
             _userName = userName;
             _project = project;
+            _messageRepository = messageRepository;
         }
 
-        public void Execute(IMessageRepository inMemoryStorage)
+        public void Execute()
         {
-            inMemoryStorage.AddFollow(_userName, _project);
+            _messageRepository.AddFollow(_userName, _project);
         }
     }
 }

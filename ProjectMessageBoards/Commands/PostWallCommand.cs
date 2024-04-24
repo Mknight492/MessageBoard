@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectMessageBoards.Commands
 {
+    using global::ProjectMessageBoards.Logger;
     using global::ProjectMessageBoards.Repositories;
     using System;
     using System.Collections.Generic;
@@ -19,23 +20,24 @@ namespace ProjectMessageBoards.Commands
         {
             private string _userName;
             private DateTime _time;
+            private IMessageRepository _messageRepository;
+            private IMessagesLogger _messagesLogger;
 
-            public PostWallCommand(string userName, DateTime time)
+            public PostWallCommand(string userName, DateTime time, IMessageRepository messageRepository, IMessagesLogger messagesLogger)
             {
                 _userName = userName;
                 _time = time;
+                _messageRepository = messageRepository;
+                _messagesLogger = messagesLogger;
             }
 
 
             //have the command directly writing to the console couples the two things together so it would be better to have an abstraction to handle the side effect of writing to the console much like the 
-            public void Execute(IMessageRepository inMemoryStorage)
+            public void Execute()
             {
-                var messages = inMemoryStorage.GetWallMessages(_userName);
+                var messages = _messageRepository.GetWallMessages(_userName);
 
-                foreach (var message in messages)
-                {
-                    Console.WriteLine($"{message.Project} - {message.User}: {message.MessageContent} {message.TimeAgoFormated(_time)}");
-                }
+                _messagesLogger.OutPutWallMessages(messages, _time);
             }
         }
     }
