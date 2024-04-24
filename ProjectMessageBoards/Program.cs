@@ -1,22 +1,25 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
 using ProjectMessageBoards.Commands;
 using ProjectMessageBoards.Repositories;
+using ProjectMessageBoards;
 
 var parser = new CommandParser();
 
 var inMemoryStorage = new MessageRepository();
 
-while (true)
-{
-    // take input from the user
-    // each new line should be treated as a new input
-    string input = Console.ReadLine();
-    if (string.IsNullOrEmpty(input))
+var host = Host.CreateDefaultBuilder(args)
+    .ConfigureServices((context, services) =>
     {
-        break;
-    }
-    var command = parser.ParseCommand(input);
-    //ideally would use an interface and potentially a DI framework for adding the reference to the data access layer
-    command.Execute(inMemoryStorage);
+        // Register services with DI container
+        services.AddSingleton<IMessageRepository, MessageRepository>(); 
+        services.AddTransient<ICommandParser, CommandParser>(); 
+        services.AddTransient<MyApplication>(); // Main application class
+    })
+    .Build();
 
-}
+
+var app = host.Services.GetRequiredService<MyApplication>();
+app.Run();

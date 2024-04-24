@@ -18,7 +18,7 @@ namespace ProjectMessageBoards.Commands
             _time = time;
         }
 
-        public void Execute(MessageRepository inMemoryStorage)
+        public void Execute(IMessageRepository inMemoryStorage)
         {
             var messages = inMemoryStorage.GetProjectMessages(_project);
             var currentAuthor = "";

@@ -28,7 +28,7 @@ namespace ProjectMessageBoards.Commands
 
 
             //have the command directly writing to the console couples the two things together so it would be better to have an abstraction to handle the side effect of writing to the console much like the 
-            public void Execute(MessageRepository inMemoryStorage)
+            public void Execute(IMessageRepository inMemoryStorage)
             {
                 var messages = inMemoryStorage.GetWallMessages(_userName);
 

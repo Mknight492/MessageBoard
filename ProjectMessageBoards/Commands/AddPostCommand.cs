@@ -22,7 +22,7 @@ namespace ProjectMessageBoards.Commands
             _time = time;
         }
 
-        public void Execute(MessageRepository inMemoryStorage)
+        public void Execute(IMessageRepository inMemoryStorage)
         {
             inMemoryStorage.AddMessage(_userName, _project, _message, _time);
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectMessageBoards.Repositories
 {
-    public class MessageRepository
+    public class MessageRepository : IMessageRepository
     {
         private List<Message> _messages = new List<Message>();
         private List<Follows> _follows = new List<Follows>();

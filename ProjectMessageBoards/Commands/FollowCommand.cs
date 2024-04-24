@@ -18,7 +18,7 @@ namespace ProjectMessageBoards.Commands
             _project = project;
         }
 
-        public void Execute(MessageRepository inMemoryStorage)
+        public void Execute(IMessageRepository inMemoryStorage)
         {
             inMemoryStorage.AddFollow(_userName, _project);
         }
