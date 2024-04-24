@@ -27,7 +27,7 @@ namespace ProjectMessageBoards.Commands
             var time = DateTime.Now;
 
 
-
+            //this is probably the biggest issue with the code so far as there are lots of edge cases with the parsing into commands that still need to be tested.
             if (input.EndsWith(" wall"))
             {
                 var userName = input.RemoveLastOccurrence(" wall");
